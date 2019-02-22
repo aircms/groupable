@@ -4,12 +4,17 @@ namespace aircms\groupable;
 
 use aircms\groupable\Models\Group;
 use aircms\groupable\Models\GroupItems;
+use aircms\settings\Models\Setting;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 trait Groupable
 {
     public function group()
     {
-        $groupItem = GroupItems::item($this->id)->type($this->getTable())->first();
+        $groupItem = GroupItems::withitem($this->id)
+            ->withType($this->getTable())
+            ->first();
+
         if (!$groupItem) {
             return null;
         }
@@ -19,7 +24,9 @@ trait Groupable
 
     public function groupItems()
     {
-        return GroupItems::type($this->getTable())->with('linkGroup')->get();
+        return GroupItems::with('group')
+            ->withType($this->getTable())
+            ->get();
     }
 
     public function linkGroupAlias($groupAlias): bool
@@ -44,7 +51,10 @@ trait Groupable
 
     public function linkGroup(Group $groupModel)
     {
-        $groupItemModel = GroupItems::group($groupModel->id)->item($this->id)->type($this->getTable())->count();
+        $groupItemModel = GroupItems::withGroup($groupModel->id)
+            ->withItem($this->id)
+            ->withType($this->getTable())
+            ->count();
         if ($groupItemModel > 0) {
             return true;
         }
