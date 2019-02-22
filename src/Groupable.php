@@ -9,7 +9,7 @@ trait Groupable
 {
     public function group()
     {
-        $groupItem = GroupItems::item($this->id)->type($this->tableName())->first();
+        $groupItem = GroupItems::item($this->id)->type($this->getTable())->first();
         if (!$groupItem) {
             return null;
         }
@@ -19,7 +19,7 @@ trait Groupable
 
     public function groupItems()
     {
-        return GroupItems::type($this->getTable())->all();
+        return GroupItems::type($this->getTable())->with('linkGroup')->get();
     }
 
     public function linkGroupAlias($groupAlias): bool
@@ -44,15 +44,15 @@ trait Groupable
 
     public function linkGroup(Group $groupModel)
     {
-        $groupItemModel = GroupItems::group($groupModel->id)->item($this->id)->type($this->tableName())->count();
+        $groupItemModel = GroupItems::group($groupModel->id)->item($this->id)->type($this->getTable())->count();
         if ($groupItemModel > 0) {
             return true;
         }
 
         $model = new GroupItems();
-        $model->group_id = $groupItemModel->id;
+        $model->group_id = $groupModel->id;
         $model->groupable_id = $this->id;
-        $model->groupable_type = $this->tableName();
+        $model->groupable_type = $this->getTable();
 
         return $model->save();
     }

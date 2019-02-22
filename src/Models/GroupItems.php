@@ -6,11 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class GroupItems extends Model
 {
-    public function linkGroup()
-    {
-        return $this->belongsTo(Group::class);
-    }
-
     public function scopeGroup($query, $groupID)
     {
         $query->where('group_id', $groupID);
