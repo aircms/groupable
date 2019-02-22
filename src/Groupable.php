@@ -13,7 +13,7 @@ trait Groupable
             return null;
         }
 
-        return $groupItem->group;
+        return $groupItem->lingGroup;
     }
 
     public function linkGroupAlias($groupAlias): bool

@@ -2,7 +2,6 @@
 
 namespace aircms\groupable\Models;
 
-use Collect;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Arr;
@@ -21,15 +20,15 @@ class Group extends Model
 
     public function items()
     {
-        $items = GroupItems::group($this->id);
-        if ($items->count() == 0) {
+        /** @var GroupItems $groupItem */
+        $groupItem = GroupItems::group($this->id)->first();
+        if (!$groupItem) {
             return Collection::make([]);
         }
 
-        $type = Arr::get($items->first(), "groupable_type");
-        $className = Relation::$morphMap[$type];
+        $morphModel = Relation::getMorphedModel($groupItem->groupable_type);
 
-        return $this->hasManyThrough($className, GroupItems::class, 'group_id', 'id', 'id', 'groupable_id');
+        return $this->hasManyThrough($morphModel, GroupItems::class, 'group_id', 'id', 'id', 'groupable_id');
     }
 
     // todo: relations

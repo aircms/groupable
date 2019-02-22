@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class GroupItems extends Model
 {
-    public function group()
+    public function linkGroup()
     {
         return $this->belongsTo(Group::class);
     }

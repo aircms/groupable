@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateGroupItemsTable extends Migration
 {
@@ -17,7 +17,7 @@ class CreateGroupItemsTable extends Migration
             $table->increments('id');
             $table->integer('group_id');
             $table->integer('groupable_id');
-            $table->string('igroupable_type');
+            $table->string('groupable_type');
             $table->timestamps();
         });
     }
