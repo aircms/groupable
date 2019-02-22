@@ -1,4 +1,5 @@
 <?php
+
 namespace aircms\groupable;
 
 use aircms\groupable\Models\Group;
@@ -9,11 +10,16 @@ trait Groupable
     public function group()
     {
         $groupItem = GroupItems::item($this->id)->type($this->tableName())->first();
-        if (!$groupItem){
+        if (!$groupItem) {
             return null;
         }
 
         return $groupItem->lingGroup;
+    }
+
+    public function groupItems()
+    {
+        return GroupItems::type($this->getTable())->all();
     }
 
     public function linkGroupAlias($groupAlias): bool
