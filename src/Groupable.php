@@ -4,8 +4,6 @@ namespace aircms\groupable;
 
 use aircms\groupable\Models\Group;
 use aircms\groupable\Models\GroupItems;
-use aircms\settings\Models\Setting;
-use Illuminate\Database\Eloquent\Relations\Relation;
 
 trait Groupable
 {
